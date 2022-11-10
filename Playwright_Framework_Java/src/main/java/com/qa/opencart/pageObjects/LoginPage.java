@@ -1,4 +1,4 @@
-package com.qa.opencart.pages;
+package com.qa.opencart.pageObjects;
 
 import com.microsoft.playwright.Page;
 
@@ -6,10 +6,10 @@ public class LoginPage {
 
 	private Page page;
 
-	// 1. String Locators - OR
-	private String emailId = "//input[@id='input-email']";
-	private String password = "//input[@id='input-password']";
-	private String loginBtn = "//input[@value='Login']";
+	// 1. String Locators
+	private String emailInput = "//input[@id='input-email']";
+	private String passwordInput = "//input[@id='input-password']";
+	private String loginButton = "//input[@value='Login']";
 	private String forgotPwdLink = "//div[@class='form-group']//a[normalize-space()='Forgotten Password']";
 	private String logoutLink = "//a[@class='list-group-item'][normalize-space()='Logout']";
 
@@ -27,17 +27,14 @@ public class LoginPage {
 		return page.isVisible(forgotPwdLink);
 	}
 	
-	public boolean doLogin(String appUserName, String appPassword) {
-		System.out.println("App creds: " + appUserName + ":" + appPassword);
-		page.fill(emailId, appUserName);
-		page.fill(password, appPassword);
-		page.click(loginBtn);
+	public boolean doLogin(String username, String password) {
+		page.fill(emailInput, username);
+		page.fill(passwordInput, password);
+		page.click(loginButton);
 		page.locator(logoutLink).waitFor();
 		if(page.locator(logoutLink).isVisible()) {
-			System.out.println("user is logged in successfully....");
 			return true;
 		}else {
-			System.out.println("user is not logged in successfully....");
 			return false;
 		}
 	}

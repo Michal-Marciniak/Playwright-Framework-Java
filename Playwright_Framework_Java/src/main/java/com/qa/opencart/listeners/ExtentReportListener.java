@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.qa.opencart.constants.Constants;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -19,9 +20,6 @@ import static com.qa.opencart.factory.PlaywrightFactory.takeScreenshot;
 
 public class ExtentReportListener implements ITestListener {
 
-	private static final String OUTPUT_FOLDER = "./build/";
-	private static final String FILE_NAME = "TestExecutionReport.html";
-
 	private static ExtentReports extent = init();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
 	private static ExtentReports extentReports;
@@ -29,8 +27,8 @@ public class ExtentReportListener implements ITestListener {
 
 	private static ExtentReports init() {
 
-		Path path = Paths.get(OUTPUT_FOLDER);
-		// if directory exists?
+		Path path = Paths.get(Constants.OUTPUT_FOLDER);
+		// directory exists?
 		if (!Files.exists(path)) {
 			try {
 				Files.createDirectories(path);
@@ -41,16 +39,13 @@ public class ExtentReportListener implements ITestListener {
 		}
 		
 		extentReports = new ExtentReports();
-		ExtentSparkReporter reporter = new ExtentSparkReporter(OUTPUT_FOLDER + FILE_NAME);
+		ExtentSparkReporter reporter = new ExtentSparkReporter(Constants.OUTPUT_FOLDER + Constants.FILE_NAME);
 		reporter.config().setReportName("Open Cart Automation Test Results");
 		extentReports.attachReporter(reporter);
-		extentReports.setSystemInfo("System", "MAC");
-		extentReports.setSystemInfo("Author", "Naveen AutomationLabs");
+		extentReports.setSystemInfo("System", "Windows");
+		extentReports.setSystemInfo("Author", "Michal Marciniak");
 		extentReports.setSystemInfo("Build#", "1.1");
-		extentReports.setSystemInfo("Team", "OMS");
-		extentReports.setSystemInfo("Customer Name", "NAL");
-
-		//extentReports.setSystemInfo("ENV NAME", System.getProperty("env"));
+		extentReports.setSystemInfo("ENV NAME", System.getProperty("env"));
 
 		return extentReports;
 	}
@@ -81,10 +76,6 @@ public class ExtentReportListener implements ITestListener {
 				result.getMethod().getDescription());
 
 		extentTest.assignCategory(result.getTestContext().getSuite().getName());
-		/*
-		 * methodName = StringUtils.capitalize(StringUtils.join(StringUtils.
-		 * splitByCharacterTypeCamelCase(methodName), StringUtils.SPACE));
-		 */
 		extentTest.assignCategory(className);
 		test.set(extentTest);
 		test.get().getModel().setStartTime(getTime(result.getStartMillis()));
