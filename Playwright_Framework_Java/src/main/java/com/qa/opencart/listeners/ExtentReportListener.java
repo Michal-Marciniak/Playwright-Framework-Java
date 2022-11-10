@@ -53,18 +53,18 @@ public class ExtentReportListener implements ITestListener {
 	@Override
 	public synchronized void onStart(ITestContext context) {
 		System.out.println("Test Suite started!");
-		
 	}
 
 	@Override
 	public synchronized void onFinish(ITestContext context) {
-		System.out.println(("Test Suite is ending!"));
 		extent.flush();
 		test.remove();
+		System.out.println(("Test Suite ended!"));
 	}
 
 	@Override
 	public synchronized void onTestStart(ITestResult result) {
+
 		String methodName = result.getMethod().getMethodName();
 		String qualifiedName = result.getMethod().getQualifiedName();
 		int last = qualifiedName.lastIndexOf(".");
@@ -84,7 +84,6 @@ public class ExtentReportListener implements ITestListener {
 	public synchronized void onTestSuccess(ITestResult result) {
 		System.out.println((result.getMethod().getMethodName() + " passed!"));
 		test.get().pass("Test passed");
-		test.get().pass(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(takeScreenshot(),result.getMethod().getMethodName()).build());
 		test.get().getModel().setEndTime(getTime(result.getEndMillis()));
 	}
 

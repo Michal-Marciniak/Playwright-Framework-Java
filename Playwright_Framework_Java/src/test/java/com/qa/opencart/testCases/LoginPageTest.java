@@ -11,9 +11,8 @@ public class LoginPageTest extends BaseTest {
 	@Test(priority = 1)
 	public void loginPageNavigationTest() {
 		loginPage = homePage.navigateToLoginPage();
-		String actLoginPageTitle = loginPage.getLoginPageTitle();
-		System.out.println("page act title: " + actLoginPageTitle);
-		Assert.assertEquals(actLoginPageTitle, Constants.LOGIN_PAGE_TITLE);
+		String actualLoginPageTitle = loginPage.getLoginPageTitle();
+		Assert.assertEquals(actualLoginPageTitle, Constants.LOGIN_PAGE_TITLE);
 	}
 
 	@Test(priority = 2)
@@ -23,7 +22,9 @@ public class LoginPageTest extends BaseTest {
 
 	@Test(priority = 3)
 	public void appLoginTest() {
-		Assert.assertTrue(loginPage.doLogin(prop.getProperty("username").trim(), prop.getProperty("password").trim()));
+		String username = prop.getProperty("username").trim();
+		String password = prop.getProperty("password").trim();
+		Assert.assertTrue(loginPage.doLogin(username, password));
 	}
 
 }

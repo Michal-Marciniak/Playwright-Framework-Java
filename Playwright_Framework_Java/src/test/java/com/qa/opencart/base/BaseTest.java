@@ -20,16 +20,16 @@ public class BaseTest {
 	protected HomePage homePage;
 	protected LoginPage loginPage;
 
-	//@Parameters({ "browser" })
+	@Parameters({"browser"})
 	@BeforeTest
-	public void setup() {
+	public void setup(String browserName) {
 
 		playwrightFactory = new PlaywrightFactory();
 		prop = playwrightFactory.init_prop();
 
-//		if (browserName != null) {
-//			prop.setProperty("browser", browserName);
-//		}
+		if (browserName != null) {
+			prop.setProperty("browser", browserName);
+		}
 
 		page = playwrightFactory.initBrowser(prop);
 		homePage = new HomePage(page);
